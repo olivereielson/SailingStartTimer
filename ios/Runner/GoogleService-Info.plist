@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>CLIENT_ID</key>
+	<string>153030864108-i23ojkdl6vo53bb93aihhq2kmmc5vcat.apps.googleusercontent.com</string>
+	<key>REVERSED_CLIENT_ID</key>
+	<string>com.googleusercontent.apps.153030864108-i23ojkdl6vo53bb93aihhq2kmmc5vcat</string>
+	<key>API_KEY</key>
+	<string>AIzaSyCWHhGuprVwbhbayulAwrdJUMQuExhZBJM</string>
+	<key>GCM_SENDER_ID</key>
+	<string>153030864108</string>
+	<key>PLIST_VERSION</key>
+	<string>1</string>
+	<key>BUNDLE_ID</key>
+	<string>com.example.sailingTimer</string>
+	<key>PROJECT_ID</key>
+	<string>start-timer-44553</string>
+	<key>STORAGE_BUCKET</key>
+	<string>start-timer-44553.appspot.com</string>
+	<key>IS_ADS_ENABLED</key>
+	<false/>
+	<key>IS_ANALYTICS_ENABLED</key>
+	<true/>
+	<key>IS_APPINVITE_ENABLED</key>
+	<true/>
+	<key>IS_GCM_ENABLED</key>
+	<true/>
+	<key>IS_SIGNIN_ENABLED</key>
+	<true/>
+	<key>GOOGLE_APP_ID</key>
+	<string>1:153030864108:ios:65455fcf151989d3b689c9</string>
+</dict>
+</plist>
