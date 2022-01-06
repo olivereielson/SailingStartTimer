@@ -27,7 +27,7 @@ dependencies:
 
   # The following adds the Cupertino Icons font to your application.
   # Use with the CupertinoIcons class for iOS style icons.
-  cupertino_icons: ^1.0.2
+  cupertino_icons:
   flutter_beep:
   audioplayers:
   shared_preferences:
@@ -35,6 +35,10 @@ dependencies:
   theme_provider:
   flutter_dynamic_icon:
   app_review:
+  firebase_crashlytics:
+  firebase_performance:
+  firebase_core:
+  top_snackbar_flutter:
 
 
 

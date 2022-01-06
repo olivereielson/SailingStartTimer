@@ -1,7 +1,9 @@
 import 'dart:async';
 
 import 'package:audioplayers/audioplayers.dart';
+import 'package:firebase_crashlytics/firebase_crashlytics.dart';
 import 'package:flutter/cupertino.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_beep/flutter_beep.dart';
@@ -11,18 +13,34 @@ import 'package:shared_preferences/shared_preferences.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_analytics/firebase_analytics.dart';
-import 'package:firebase_analytics/observer.dart';
 import 'package:theme_provider/theme_provider.dart';
+import 'package:top_snackbar_flutter/custom_snack_bar.dart';
+import 'package:top_snackbar_flutter/top_snack_bar.dart';
 import 'extra.dart';
 
+// Toggle this to cause an async error to be thrown during initialization
+// and to test that runZonedGuarded() catches the error
+const _kShouldTestAsyncErrorOnInit = false;
+
+// Toggle this for testing Crashlytics in your app locally.
+const _kTestingCrashlytics = false;
+
+
 Future<void> main() async {
-  WidgetsFlutterBinding.ensureInitialized();
+  runZonedGuarded(() async {
+
+    WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp();
-  runApp(MyApp());
+    FlutterError.onError = FirebaseCrashlytics.instance.recordFlutterError;
+
+    runApp(MyApp());
+  }, (error, stackTrace) {
+    FirebaseCrashlytics.instance.recordError(error, stackTrace);
+  });
 }
 
 class MyApp extends StatelessWidget {
-  static FirebaseAnalytics analytics = FirebaseAnalytics();
+  static FirebaseAnalytics analytics = FirebaseAnalytics.instance;
   static FirebaseAnalyticsObserver observer = FirebaseAnalyticsObserver(analytics: analytics);
 
   @override
@@ -258,11 +276,48 @@ class _MyHomePageState extends State<MyHomePage> {
       backgroundColor: Theme.of(context).primaryColor,
     );
 
-    ScaffoldMessenger.of(context).showSnackBar(snackBar);
+    //ScaffoldMessenger.of(context).showSnackBar(snackBar);
+    showTopSnackBar(
+      context,
+      CustomSnackBar.error(
+        message:
+        "Start The Timer First",
+      ),
+    );
+
+
+  }
+
+
+  Future<void> _initializeFlutterFire() async {
+    // Wait for Firebase to initialize
+
+    if (_kTestingCrashlytics) {
+      // Force enable crashlytics collection enabled if we're testing it.
+      await FirebaseCrashlytics.instance.setCrashlyticsCollectionEnabled(true);
+    } else {
+      // Else only enable it in non-debug builds.
+      // You could additionally extend this to allow users to opt-in.
+      await FirebaseCrashlytics.instance
+          .setCrashlyticsCollectionEnabled(!kDebugMode);
+    }
+
+    if (_kShouldTestAsyncErrorOnInit) {
+      await _testAsyncErrorOnInit();
+    }
+  }
+
+  Future<void> _testAsyncErrorOnInit() async {
+    Future<void>.delayed(const Duration(seconds: 2), () {
+      final List<int> list = <int>[];
+      print(list[100]);
+    });
   }
 
   @override
   void initState() {
+    _initializeFlutterFire();
+
     loadPrefs();
     Timer.periodic(Duration(seconds: 1), (timer) {
       timer_func(timer);

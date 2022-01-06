@@ -1,9 +1,10 @@
 import 'package:firebase_analytics/firebase_analytics.dart';
-import 'package:firebase_analytics/observer.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_dynamic_icon/flutter_dynamic_icon.dart';
+import 'package:top_snackbar_flutter/custom_snack_bar.dart';
+import 'package:top_snackbar_flutter/top_snack_bar.dart';
 
 class iconPage extends StatefulWidget {
   iconPage({required this.analytics, required this.observer});
@@ -50,7 +51,14 @@ class _iconPageState extends State<iconPage> {
 
       ),
     );
-    ScaffoldMessenger.of(context).showSnackBar(snackBar);
+   // ScaffoldMessenger.of(context).showSnackBar(snackBar);
+    showTopSnackBar(
+      context,
+      CustomSnackBar.error(
+        message:
+        "Error Changing Icon",
+      ),
+    );
   }
 
   @override
