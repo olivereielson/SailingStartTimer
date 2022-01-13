@@ -25,12 +25,10 @@ const _kShouldTestAsyncErrorOnInit = false;
 // Toggle this for testing Crashlytics in your app locally.
 const _kTestingCrashlytics = false;
 
-
 Future<void> main() async {
   runZonedGuarded(() async {
-
     WidgetsFlutterBinding.ensureInitialized();
-  await Firebase.initializeApp();
+    await Firebase.initializeApp();
     FlutterError.onError = FirebaseCrashlytics.instance.recordFlutterError;
 
     runApp(MyApp());
@@ -41,7 +39,8 @@ Future<void> main() async {
 
 class MyApp extends StatelessWidget {
   static FirebaseAnalytics analytics = FirebaseAnalytics.instance;
-  static FirebaseAnalyticsObserver observer = FirebaseAnalyticsObserver(analytics: analytics);
+  static FirebaseAnalyticsObserver observer =
+      FirebaseAnalyticsObserver(analytics: analytics);
 
   @override
   Widget build(BuildContext context) {
@@ -69,7 +68,10 @@ class MyApp extends StatelessWidget {
             primaryColor: Colors.lightBlueAccent,
             primaryColorLight: Colors.lightBlueAccent,
             accentColor: Colors.white,
+            textTheme: TextTheme(bodyText1: TextStyle(color: Colors.pink)),
 
+            cupertinoOverrideTheme: NoDefaultCupertinoThemeData(
+                textTheme: CupertinoTextThemeData(primaryColor: Colors.pink)),
             iconTheme: IconThemeData(color: Colors.lightBlueAccent),
           ),
         ),
@@ -133,7 +135,7 @@ class MyApp extends StatelessWidget {
           id: "purple", // Id(or name) of the theme(Has to be unique)
           description: "Dark Theme", // Description of theme
           data: ThemeData(
-            // Real theme data
+              // Real theme data
               brightness: Brightness.dark,
               scaffoldBackgroundColor: Color.fromRGBO(46, 48, 48, 1),
               backgroundColor: Color.fromRGBO(46, 48, 48, 1),
@@ -143,7 +145,6 @@ class MyApp extends StatelessWidget {
               iconTheme: IconThemeData(color: Colors.white),
               primaryColorDark: Colors.purpleAccent),
         ),
-
       ],
       saveThemesOnChange: true,
       onInitCallback: (controller, previouslySavedThemeFuture) async {
@@ -189,7 +190,34 @@ class _MyHomePageState extends State<MyHomePage> {
   bool rolling = false;
   bool sound = true;
 
-  List<int> beep_times = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 15, 20, 30, 40, 50, 60, 90, 120, 180, 240, 241, 242, 243, 244, 245];
+  List<int> beep_times = [
+    0,
+    1,
+    2,
+    3,
+    4,
+    5,
+    6,
+    7,
+    8,
+    9,
+    10,
+    15,
+    20,
+    30,
+    40,
+    50,
+    60,
+    90,
+    120,
+    180,
+    240,
+    241,
+    242,
+    243,
+    244,
+    245
+  ];
   List<int> beep_times_fast = [];
 
   void timer_func(Timer timer) {
@@ -280,14 +308,10 @@ class _MyHomePageState extends State<MyHomePage> {
     showTopSnackBar(
       context,
       CustomSnackBar.error(
-        message:
-        "Start The Timer First",
+        message: "Start The Timer First",
       ),
     );
-
-
   }
-
 
   Future<void> _initializeFlutterFire() async {
     // Wait for Firebase to initialize
@@ -301,17 +325,6 @@ class _MyHomePageState extends State<MyHomePage> {
       await FirebaseCrashlytics.instance
           .setCrashlyticsCollectionEnabled(!kDebugMode);
     }
-
-    if (_kShouldTestAsyncErrorOnInit) {
-      await _testAsyncErrorOnInit();
-    }
-  }
-
-  Future<void> _testAsyncErrorOnInit() async {
-    Future<void>.delayed(const Duration(seconds: 2), () {
-      final List<int> list = <int>[];
-      print(list[100]);
-    });
   }
 
   @override
@@ -345,7 +358,8 @@ class _MyHomePageState extends State<MyHomePage> {
             setState(() {
               sound = !sound;
             });
-            widget.analytics.logEvent(name: "sound_toggled",
+            widget.analytics.logEvent(
+              name: "sound_toggled",
               parameters: <String, dynamic>{
                 'sound_on': sound,
               },
@@ -398,7 +412,9 @@ class _MyHomePageState extends State<MyHomePage> {
             children: [
               Text(
                 //"01:00",
-                count_time.inSeconds >= 3584 ? Duration(seconds: time).toString().substring(0, 7) : Duration(seconds: time).toString().substring(2, 7),
+                count_time.inSeconds >= 3584
+                    ? Duration(seconds: time).toString().substring(0, 7)
+                    : Duration(seconds: time).toString().substring(2, 7),
                 style: TextStyle(fontSize: 70, fontWeight: FontWeight.bold),
               ),
               Row(
@@ -423,11 +439,15 @@ class _MyHomePageState extends State<MyHomePage> {
                     child: Container(
                       height: 120,
                       width: 120,
-                      decoration: BoxDecoration(border: Border.all(color: Theme.of(context).primaryColor, width: 3), borderRadius: BorderRadius.all(Radius.circular(20))),
+                      decoration: BoxDecoration(
+                          border: Border.all(
+                              color: Theme.of(context).primaryColor, width: 3),
+                          borderRadius: BorderRadius.all(Radius.circular(20))),
                       child: Center(
                           child: Text(
                         !_running ? "Start" : "Cancel",
-                        style: TextStyle(fontWeight: FontWeight.bold, fontSize: 20),
+                        style: TextStyle(
+                            fontWeight: FontWeight.bold, fontSize: 20),
                       )),
                     ),
                   ),
@@ -449,14 +469,14 @@ class _MyHomePageState extends State<MyHomePage> {
                             //time=count_time.inSeconds;
                             startTimer();
                           } else {
-                            if(sound){
+                            if (sound) {
                               FlutterBeep.beep();
                             }
                           }
                         });
                       } else {
                         snack();
-                        if(sound){
+                        if (sound) {
                           FlutterBeep.beep(false);
                         }
                         widget.analytics.logEvent(name: "Timer_Synced_Failed");
@@ -466,11 +486,15 @@ class _MyHomePageState extends State<MyHomePage> {
                     child: Container(
                       height: 120,
                       width: 120,
-                      decoration: BoxDecoration(border: Border.all(color: Theme.of(context).primaryColor, width: 3), borderRadius: BorderRadius.all(Radius.circular(20))),
+                      decoration: BoxDecoration(
+                          border: Border.all(
+                              color: Theme.of(context).primaryColor, width: 3),
+                          borderRadius: BorderRadius.all(Radius.circular(20))),
                       child: Center(
                           child: Text(
                         "Sync",
-                        style: TextStyle(fontWeight: FontWeight.bold, fontSize: 20),
+                        style: TextStyle(
+                            fontWeight: FontWeight.bold, fontSize: 20),
                       )),
                     ),
                   )

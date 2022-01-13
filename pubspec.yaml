@@ -39,7 +39,8 @@ dependencies:
   firebase_performance:
   firebase_core:
   top_snackbar_flutter:
-
+  ce_settings:
+  settings_ui:
 
 
 dev_dependencies:

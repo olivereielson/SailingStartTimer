@@ -6,6 +6,8 @@ import 'package:sailing_timer/icon%20page.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:flutter/services.dart';
 import 'package:theme_provider/theme_provider.dart';
+import 'package:ce_settings/ce_settings.dart';
+import 'package:settings_ui/settings_ui.dart';
 
 import 'extra.dart';
 
@@ -290,7 +292,7 @@ class _settingsState extends State<settings> {
       padding: const EdgeInsets.all(15.0),
       child: GestureDetector(
         onTap: () async {
-          await showDialog(
+          await showCupertinoDialog(
               context: context,
               builder: (_) => ThemeConsumer(
                       child: ThemeDialog(
@@ -351,6 +353,25 @@ class _settingsState extends State<settings> {
     );
   }
 
+  Widget icons(IconData iconsss){
+
+    return Padding(
+      padding: const EdgeInsets.symmetric(vertical: 10),
+      child: Container(
+          decoration: BoxDecoration(
+            color: Theme.of(context).primaryColor,
+            borderRadius: BorderRadius.all(
+              Radius.circular(10),
+            ),
+          ),
+          child: Padding(
+            padding: const EdgeInsets.all(5.0),
+            child: Icon(iconsss,color: Colors.white,),
+          )),
+    );
+
+  }
+
   @override
   void initState() {
     widget.analytics.setCurrentScreen(
@@ -362,6 +383,132 @@ class _settingsState extends State<settings> {
 
   @override
   Widget build(BuildContext context) {
+
+    return  Scaffold(
+
+      appBar: AppBar(
+
+
+        leading: Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 20),
+          child: GestureDetector(
+              onTap: (){
+                Navigator.pop(context);
+
+              },
+              child: Icon(CupertinoIcons.chevron_left,color: CupertinoColors.activeBlue,size: 30,)),
+        ),
+
+        title: Text("Settings",style: TextStyle(fontSize: 30,fontWeight: FontWeight.bold,),),
+        centerTitle: false,
+        leadingWidth: 50,
+        backgroundColor: CupertinoColors.darkBackgroundGray,
+        elevation: 0,
+      ),
+
+
+
+      body:   SettingsList(
+        sections: [
+          SettingsSection(
+            title: Text('Timer Settings'),
+            tiles: <SettingsTile>[
+              SettingsTile.navigation(
+                leading: icons(Icons.timer),
+                title: Text('Timer'),
+                value: Text('English'),
+              ),
+              SettingsTile.switchTile(
+                onToggle: (value) {
+                  setState(() {
+                    widget.rolling=value;
+                  });
+                },
+                initialValue: widget.rolling,
+                leading: icons(CupertinoIcons.refresh),
+                title: Text('Rolling Starts'),
+              ),
+              SettingsTile.switchTile(
+                onToggle: (value) {
+                  setState(() {
+                    widget.warning=value;
+                  });
+                },
+                initialValue: widget.warning,
+                leading: icons(Icons.warning),
+                title: Text('Warning Horn'),
+              ),
+            ],
+          ),
+
+          SettingsSection(
+            title: Text('App Settings'),
+
+
+            tiles: <SettingsTile>[
+              SettingsTile.navigation(
+
+                leading: icons(Icons.dark_mode,),
+                title: Text('Theme'),
+                value: Text(ThemeProvider.themeOf(context).description),
+                onPressed: (test) async {
+                  await showCupertinoDialog(
+                      context: context,
+                      barrierDismissible: true,
+
+                      builder: (_) => ThemeConsumer(
+                      child: ThemeDialog(
+                        // selectedOverlayColor: Colors.grey,
+
+                        title: Text(ThemeProvider.themeOf(context).description),
+                        hasDescription: false,
+
+                        innerCircleColorBuilder: (AppTheme date) {
+                          return date.data.accentColor;
+                        },
+                        outerCircleColorBuilder: (AppTheme date) {
+                          return Colors.grey;
+                        },
+                      )));
+
+
+                   widget.analytics.logEvent(
+                  name: "Theme_Changed",
+                  parameters: <String, dynamic>{
+                  'theme': ThemeProvider.themeOf(context).id,
+                  },
+                  );
+                },
+              ),
+              SettingsTile.navigation(
+                leading: icons(Icons.app_registration),
+                title: Text('Change Icon'),
+                //value: Text(ThemeProvider.themeOf(context).description),
+                onPressed: (test){
+
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                        builder: (context) => iconPage(
+                          analytics: widget.analytics,
+                          observer: widget.observer,
+                        ),
+                        fullscreenDialog: true),
+                  );
+
+                },
+              ),
+            ],
+          ),
+
+
+        ],
+      ),
+    );
+
+
+
+
     return Scaffold(
       key: _scaffoldKey,
       appBar: AppBar(
