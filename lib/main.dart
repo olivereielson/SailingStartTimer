@@ -7,6 +7,7 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_beep/flutter_beep.dart';
+import 'package:percent_indicator/circular_percent_indicator.dart';
 import 'package:sailing_timer/Settings.dart';
 import 'package:sailing_timer/review.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -56,6 +57,13 @@ class MyApp extends StatelessWidget {
               backgroundColor: Color.fromRGBO(46, 48, 48, 1),
               primaryColor: Colors.lightBlueAccent,
               primaryColorLight: Colors.white,
+              appBarTheme: AppBarTheme(
+
+                backgroundColor: CupertinoColors.darkBackgroundGray,
+                elevation: 0,
+                titleTextStyle: TextStyle(fontSize: 30,fontWeight: FontWeight.bold,color: Colors.white),
+
+              ),
               accentColor: Color.fromRGBO(46, 48, 48, 1),
               iconTheme: IconThemeData(color: Colors.white),
               primaryColorDark: Colors.lightBlueAccent),
@@ -65,6 +73,13 @@ class MyApp extends StatelessWidget {
           description: "Light Theme", // Description of theme
           data: ThemeData(
             // Real theme data
+            appBarTheme: AppBarTheme(
+
+              backgroundColor: CupertinoColors.systemBackground,
+              elevation: 0,
+              titleTextStyle: TextStyle(fontSize: 30,fontWeight: FontWeight.bold,color: CupertinoColors.black),
+
+            ),
             primaryColor: Colors.lightBlueAccent,
             primaryColorLight: Colors.lightBlueAccent,
             accentColor: Colors.white,
@@ -80,6 +95,13 @@ class MyApp extends StatelessWidget {
           description: "Dark Theme", // Description of theme
           data: ThemeData(
               // Real theme data
+              appBarTheme: AppBarTheme(
+
+                backgroundColor: CupertinoColors.darkBackgroundGray,
+                elevation: 0,
+                titleTextStyle: TextStyle(fontSize: 30,fontWeight: FontWeight.bold,color: Colors.white),
+
+              ),
               brightness: Brightness.dark,
               scaffoldBackgroundColor: Color.fromRGBO(46, 48, 48, 1),
               backgroundColor: Color.fromRGBO(46, 48, 48, 1),
@@ -94,6 +116,13 @@ class MyApp extends StatelessWidget {
           description: "Dark Theme", // Description of theme
           data: ThemeData(
               // Real theme data
+              appBarTheme: AppBarTheme(
+
+                backgroundColor: CupertinoColors.darkBackgroundGray,
+                elevation: 0,
+                titleTextStyle: TextStyle(fontSize: 30,fontWeight: FontWeight.bold,color: Colors.white),
+
+              ),
               brightness: Brightness.dark,
               scaffoldBackgroundColor: Color.fromRGBO(46, 48, 48, 1),
               backgroundColor: Color.fromRGBO(46, 48, 48, 1),
@@ -105,9 +134,16 @@ class MyApp extends StatelessWidget {
         ),
         AppTheme(
           id: "pink", // Id(or name) of the theme(Has to be unique)
-          description: "Dark Theme", // Description of theme
+          description: "Light Theme", // Description of theme
           data: ThemeData(
               // Real theme data
+              appBarTheme: AppBarTheme(
+
+                backgroundColor: CupertinoColors.systemBackground,
+                elevation: 0,
+                titleTextStyle: TextStyle(fontSize: 30,fontWeight: FontWeight.bold,color: CupertinoColors.black),
+
+              ),
               brightness: Brightness.light,
               // scaffoldBackgroundColor: Color.fromRGBO(46, 48, 48, 1),
               //backgroundColor: Color.fromRGBO(46, 48, 48, 1),
@@ -122,12 +158,20 @@ class MyApp extends StatelessWidget {
           description: "Dark Theme", // Description of theme
           data: ThemeData(
               // Real theme data
+              appBarTheme: AppBarTheme(
+
+                backgroundColor: CupertinoColors.darkBackgroundGray,
+                elevation: 0,
+                titleTextStyle: TextStyle(fontSize: 30,fontWeight: FontWeight.bold,color: Colors.white),
+
+              ),
               brightness: Brightness.dark,
               scaffoldBackgroundColor: Color.fromRGBO(46, 48, 48, 1),
               backgroundColor: Color.fromRGBO(46, 48, 48, 1),
               primaryColor: Colors.orangeAccent,
               primaryColorLight: Colors.white,
               accentColor: Colors.orangeAccent,
+
               iconTheme: IconThemeData(color: Colors.white),
               primaryColorDark: Colors.orangeAccent),
         ),
@@ -136,6 +180,13 @@ class MyApp extends StatelessWidget {
           description: "Dark Theme", // Description of theme
           data: ThemeData(
               // Real theme data
+              appBarTheme: AppBarTheme(
+
+                backgroundColor: CupertinoColors.darkBackgroundGray,
+                elevation: 0,
+                titleTextStyle: TextStyle(fontSize: 30,fontWeight: FontWeight.bold,color: Colors.white),
+
+              ),
               brightness: Brightness.dark,
               scaffoldBackgroundColor: Color.fromRGBO(46, 48, 48, 1),
               backgroundColor: Color.fromRGBO(46, 48, 48, 1),
@@ -346,12 +397,12 @@ class _MyHomePageState extends State<MyHomePage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: Theme.of(context).appBarTheme.backgroundColor,
       appBar: AppBar(
         elevation: 0,
-        backgroundColor: Colors.transparent,
         leading: IconButton(
           icon: Icon(
-            sound ? Icons.volume_up : Icons.volume_off,
+            sound ? CupertinoIcons.volume_up : CupertinoIcons.volume_off,
             color: Theme.of(context).iconTheme.color,
           ),
           onPressed: () async {
@@ -371,7 +422,7 @@ class _MyHomePageState extends State<MyHomePage> {
         actions: [
           IconButton(
               icon: Icon(
-                Icons.settings,
+                CupertinoIcons.settings,
                 color: Theme.of(context).iconTheme.color,
               ),
               onPressed: () async {
@@ -410,13 +461,99 @@ class _MyHomePageState extends State<MyHomePage> {
             mainAxisAlignment: MainAxisAlignment.spaceAround,
             crossAxisAlignment: CrossAxisAlignment.center,
             children: [
-              Text(
-                //"01:00",
-                count_time.inSeconds >= 3584
-                    ? Duration(seconds: time).toString().substring(0, 7)
-                    : Duration(seconds: time).toString().substring(2, 7),
-                style: TextStyle(fontSize: 70, fontWeight: FontWeight.bold),
+
+
+              CircularPercentIndicator(
+                radius: 300.0,
+                lineWidth: 20.0,
+
+
+                circularStrokeCap: CircularStrokeCap.round,
+                animation: true,
+                animateFromLastPercent: true,
+                animationDuration: 1000,
+                backgroundColor: CupertinoColors.tertiarySystemFill,
+
+                //arcBackgroundColor: CupertinoColors.systemBackground,
+                percent: _warning?(time/(count_time.inSeconds+15)):time/count_time.inSeconds,
+                center: Text(
+                  //"01:00",
+                  count_time.inSeconds >= 3584
+                      ? Duration(seconds: time).toString().substring(0, 7)
+                      : Duration(seconds: time).toString().substring(2, 7),
+                  style: TextStyle(fontSize: 70, fontWeight: FontWeight.normal),
+                ),
+                progressColor: Theme.of(context).primaryColor,
+
               ),
+
+              Row(
+
+                mainAxisAlignment: MainAxisAlignment.spaceAround,
+                children: [
+
+                  CupertinoButton(
+                       borderRadius: BorderRadius.all(Radius.circular(15)),
+                      color: Theme.of(context).primaryColor,
+
+                      child: Text( !_running ? "Start" : "Cancel",), onPressed:(){
+                    if (!_running) {
+                      // time = count_time.inSeconds;
+                      //  _running = true;
+                      HapticFeedback.selectionClick();
+                      startTimer();
+                      widget.analytics.logEvent(name: "Timer_Started");
+                    } else {
+                      setState(() {
+                        _running = false;
+                        time = count_time.inSeconds;
+                        widget.analytics.logEvent(name: "Timer_Canceled");
+                      });
+                    }
+
+                  }),
+                  CupertinoButton(
+                      borderRadius: BorderRadius.all(Radius.circular(15)),
+                      color: Theme.of(context).primaryColor,
+
+                      child: Text("Sync"), onPressed:(){
+                    if (_running) {
+                      HapticFeedback.selectionClick();
+                      widget.analytics.logEvent(name: "Timer_Synced");
+
+                      setState(() {
+                        time = (time ~/ 60) * 60;
+
+                        if (time == 0 && rolling && sound) {
+                          audioCache.play(
+                            'beep2.mp3',
+                            mode: PlayerMode.LOW_LATENCY,
+                            stayAwake: true,
+                          );
+                          //time=count_time.inSeconds;
+                          startTimer();
+                        } else {
+                          if (sound) {
+                            FlutterBeep.beep();
+                          }
+                        }
+                      });
+                    } else {
+                      snack();
+                      if (sound) {
+                        FlutterBeep.beep(false);
+                      }
+                      widget.analytics.logEvent(name: "Timer_Synced_Failed");
+                    }
+                  })
+
+                ],
+
+
+              ),
+
+
+              /*
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceAround,
                 children: [
@@ -500,6 +637,8 @@ class _MyHomePageState extends State<MyHomePage> {
                   )
                 ],
               )
+
+               */
             ],
           ),
         ),

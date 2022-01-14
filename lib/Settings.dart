@@ -6,7 +6,6 @@ import 'package:sailing_timer/icon%20page.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:flutter/services.dart';
 import 'package:theme_provider/theme_provider.dart';
-import 'package:ce_settings/ce_settings.dart';
 import 'package:settings_ui/settings_ui.dart';
 
 import 'extra.dart';
@@ -381,6 +380,7 @@ class _settingsState extends State<settings> {
     super.initState();
   }
 
+
   @override
   Widget build(BuildContext context) {
 
@@ -389,20 +389,17 @@ class _settingsState extends State<settings> {
       appBar: AppBar(
 
 
-        leading: Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 20),
-          child: GestureDetector(
-              onTap: (){
-                Navigator.pop(context);
+        leading: IconButton(
 
-              },
-              child: Icon(CupertinoIcons.chevron_left,color: CupertinoColors.activeBlue,size: 30,)),
-        ),
+          color: Colors.pink,
+          icon: Icon(CupertinoIcons.chevron_left,color: CupertinoColors.activeBlue,size: 30,), onPressed: () {
 
-        title: Text("Settings",style: TextStyle(fontSize: 30,fontWeight: FontWeight.bold,),),
-        centerTitle: false,
-        leadingWidth: 50,
-        backgroundColor: CupertinoColors.darkBackgroundGray,
+          Navigator.pop(context, back(widget.rolling, _chosenTime, widget.warning),);
+
+        },),
+
+        title: Text("Settings"),
+        centerTitle: true,
         elevation: 0,
       ),
 
@@ -416,7 +413,11 @@ class _settingsState extends State<settings> {
               SettingsTile.navigation(
                 leading: icons(Icons.timer),
                 title: Text('Timer'),
-                value: Text('English'),
+                value: Text(_chosenTime.toString().substring(2, 7)),
+                onPressed: (test){
+                  _showDatePicker(context);
+
+                },
               ),
               SettingsTile.switchTile(
                 onToggle: (value) {
@@ -430,9 +431,21 @@ class _settingsState extends State<settings> {
               ),
               SettingsTile.switchTile(
                 onToggle: (value) {
-                  setState(() {
-                    widget.warning=value;
-                  });
+                  setState(() async {
+                    HapticFeedback.lightImpact();
+
+                    setState(() {
+                      widget.warning = value;
+                    });
+                    SharedPreferences prefs = await SharedPreferences.getInstance();
+                    prefs.setBool("warning", value);
+
+                    widget.analytics.logEvent(
+                      name: "Warning_Toggled",
+                      parameters: <String, dynamic>{
+                        'value': value,
+                      },
+                    );                  });
                 },
                 initialValue: widget.warning,
                 leading: icons(Icons.warning),
@@ -458,7 +471,6 @@ class _settingsState extends State<settings> {
 
                       builder: (_) => ThemeConsumer(
                       child: ThemeDialog(
-                        // selectedOverlayColor: Colors.grey,
 
                         title: Text(ThemeProvider.themeOf(context).description),
                         hasDescription: false,
