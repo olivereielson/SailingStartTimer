@@ -221,12 +221,12 @@ class _iconPageState extends State<iconPage> {
                           decoration: BoxDecoration(
                               color: Color.fromRGBO(47, 48, 48, 1),
                               borderRadius: BorderRadius.all(
-                                Radius.circular(10),
+                                Radius.circular(15),
                               ),
                               border: Border.all(
                                   color: iconIndex==index?Theme.of(context).primaryColor:Colors.transparent, width: 2)),
                           child: ClipRRect(
-                              borderRadius: BorderRadius.all(Radius.circular(10)),
+                              borderRadius: BorderRadius.all(Radius.circular(15)),
                               child: Image.asset(
                                 iconName[index],
                                 width: 60,

@@ -1,3 +1,6 @@
+import 'dart:io';
+
+import 'package:app_review/app_review.dart';
 import 'package:firebase_analytics/firebase_analytics.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -420,10 +423,26 @@ class _settingsState extends State<settings> {
                 },
               ),
               SettingsTile.switchTile(
-                onToggle: (value) {
-                  setState(() {
-                    widget.rolling=value;
-                  });
+                onToggle: (value)  {
+
+                    HapticFeedback.lightImpact();
+
+                    setState(() {
+                      widget.rolling = value;
+                    });
+
+
+                    widget.analytics.logEvent(
+                      name: "Rolling_Toggled",
+                      parameters: <String, dynamic>{
+                        'rolling_start': value,
+                      },
+                    );
+
+                    SharedPreferences.getInstance().then((prefs){
+                      prefs.setBool("rolling", value);
+                    });
+
                 },
                 initialValue: widget.rolling,
                 leading: icons(CupertinoIcons.refresh),
@@ -513,6 +532,28 @@ class _settingsState extends State<settings> {
             ],
           ),
 
+          SettingsSection(
+            title: Text('Feedback'),
+
+
+            tiles: <SettingsTile>[
+              SettingsTile.navigation(
+
+                leading: icons(Icons.reviews,),
+                title: Text('Leave a Review'),
+                description: Text('Created By Oliver Eielson'),
+               // value: Text(ThemeProvider.themeOf(context).description),
+                onPressed: (test)  {
+                  if (Platform.isIOS) {
+                    AppReview.requestReview;
+                  }
+                }
+
+              ),
+
+            ],
+          ),
+
 
         ],
       ),
@@ -520,6 +561,10 @@ class _settingsState extends State<settings> {
 
 
 
+
+
+  }
+  Widget old(){
 
     return Scaffold(
       key: _scaffoldKey,

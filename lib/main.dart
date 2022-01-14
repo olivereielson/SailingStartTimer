@@ -282,13 +282,15 @@ class _MyHomePageState extends State<MyHomePage> {
           time = time - 1;
         });
 
-        if (time == 0 && sound) {
-          audioCache.play(
-            'beep2.mp3',
-            mode: PlayerMode.LOW_LATENCY,
-            stayAwake: true,
-          );
+        if (time == 0 ) {
 
+          if(sound){
+            audioCache.play(
+              'beep2.mp3',
+              mode: PlayerMode.LOW_LATENCY,
+              stayAwake: true,
+            );
+          }
           if (rolling) {
             startTimer();
           }
@@ -331,6 +333,9 @@ class _MyHomePageState extends State<MyHomePage> {
       setState(() {
         count_time = Duration(seconds: prefs.getInt("time")!);
         time = count_time.inSeconds;
+        if(_warning){
+          time=time+15;
+        }
       });
     } else {
       prefs.setInt("time", time);
@@ -507,6 +512,11 @@ class _MyHomePageState extends State<MyHomePage> {
                       setState(() {
                         _running = false;
                         time = count_time.inSeconds;
+
+                        if (_warning){
+                          time=time+15;
+                        }
+
                         widget.analytics.logEvent(name: "Timer_Canceled");
                       });
                     }
