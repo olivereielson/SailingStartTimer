@@ -61,11 +61,12 @@ class MyApp extends StatelessWidget {
               primaryColor: Colors.lightBlueAccent,
               primaryColorLight: Colors.white,
               appBarTheme: AppBarTheme(
-
                 backgroundColor: CupertinoColors.darkBackgroundGray,
                 elevation: 0,
-                titleTextStyle: TextStyle(fontSize: 30,fontWeight: FontWeight.bold,color: Colors.white),
-
+                titleTextStyle: TextStyle(
+                    fontSize: 30,
+                    fontWeight: FontWeight.bold,
+                    color: Colors.white),
               ),
               accentColor: Color.fromRGBO(46, 48, 48, 1),
               iconTheme: IconThemeData(color: Colors.white),
@@ -77,11 +78,12 @@ class MyApp extends StatelessWidget {
           data: ThemeData(
             // Real theme data
             appBarTheme: AppBarTheme(
-
               backgroundColor: CupertinoColors.systemBackground,
               elevation: 0,
-              titleTextStyle: TextStyle(fontSize: 30,fontWeight: FontWeight.bold,color: CupertinoColors.black),
-
+              titleTextStyle: TextStyle(
+                  fontSize: 30,
+                  fontWeight: FontWeight.bold,
+                  color: CupertinoColors.black),
             ),
             primaryColor: Colors.lightBlueAccent,
             primaryColorLight: Colors.lightBlueAccent,
@@ -99,11 +101,12 @@ class MyApp extends StatelessWidget {
           data: ThemeData(
               // Real theme data
               appBarTheme: AppBarTheme(
-
                 backgroundColor: CupertinoColors.darkBackgroundGray,
                 elevation: 0,
-                titleTextStyle: TextStyle(fontSize: 30,fontWeight: FontWeight.bold,color: Colors.white),
-
+                titleTextStyle: TextStyle(
+                    fontSize: 30,
+                    fontWeight: FontWeight.bold,
+                    color: Colors.white),
               ),
               brightness: Brightness.dark,
               scaffoldBackgroundColor: Color.fromRGBO(46, 48, 48, 1),
@@ -120,11 +123,12 @@ class MyApp extends StatelessWidget {
           data: ThemeData(
               // Real theme data
               appBarTheme: AppBarTheme(
-
                 backgroundColor: CupertinoColors.darkBackgroundGray,
                 elevation: 0,
-                titleTextStyle: TextStyle(fontSize: 30,fontWeight: FontWeight.bold,color: Colors.white),
-
+                titleTextStyle: TextStyle(
+                    fontSize: 30,
+                    fontWeight: FontWeight.bold,
+                    color: Colors.white),
               ),
               brightness: Brightness.dark,
               scaffoldBackgroundColor: Color.fromRGBO(46, 48, 48, 1),
@@ -141,11 +145,12 @@ class MyApp extends StatelessWidget {
           data: ThemeData(
               // Real theme data
               appBarTheme: AppBarTheme(
-
                 backgroundColor: CupertinoColors.systemBackground,
                 elevation: 0,
-                titleTextStyle: TextStyle(fontSize: 30,fontWeight: FontWeight.bold,color: CupertinoColors.black),
-
+                titleTextStyle: TextStyle(
+                    fontSize: 30,
+                    fontWeight: FontWeight.bold,
+                    color: CupertinoColors.black),
               ),
               brightness: Brightness.light,
               // scaffoldBackgroundColor: Color.fromRGBO(46, 48, 48, 1),
@@ -162,11 +167,12 @@ class MyApp extends StatelessWidget {
           data: ThemeData(
               // Real theme data
               appBarTheme: AppBarTheme(
-
                 backgroundColor: CupertinoColors.darkBackgroundGray,
                 elevation: 0,
-                titleTextStyle: TextStyle(fontSize: 30,fontWeight: FontWeight.bold,color: Colors.white),
-
+                titleTextStyle: TextStyle(
+                    fontSize: 30,
+                    fontWeight: FontWeight.bold,
+                    color: Colors.white),
               ),
               brightness: Brightness.dark,
               scaffoldBackgroundColor: Color.fromRGBO(46, 48, 48, 1),
@@ -174,7 +180,6 @@ class MyApp extends StatelessWidget {
               primaryColor: Colors.orangeAccent,
               primaryColorLight: Colors.white,
               accentColor: Colors.orangeAccent,
-
               iconTheme: IconThemeData(color: Colors.white),
               primaryColorDark: Colors.orangeAccent),
         ),
@@ -184,11 +189,12 @@ class MyApp extends StatelessWidget {
           data: ThemeData(
               // Real theme data
               appBarTheme: AppBarTheme(
-
                 backgroundColor: CupertinoColors.darkBackgroundGray,
                 elevation: 0,
-                titleTextStyle: TextStyle(fontSize: 30,fontWeight: FontWeight.bold,color: Colors.white),
-
+                titleTextStyle: TextStyle(
+                    fontSize: 30,
+                    fontWeight: FontWeight.bold,
+                    color: Colors.white),
               ),
               brightness: Brightness.dark,
               scaffoldBackgroundColor: Color.fromRGBO(46, 48, 48, 1),
@@ -285,9 +291,8 @@ class _MyHomePageState extends State<MyHomePage> {
           time = time - 1;
         });
 
-        if (time == 0 ) {
-
-          if(sound){
+        if (time == 0) {
+          if (sound) {
             audioCache.play(
               'beep2.mp3',
               mode: PlayerMode.LOW_LATENCY,
@@ -336,8 +341,8 @@ class _MyHomePageState extends State<MyHomePage> {
       setState(() {
         count_time = Duration(seconds: prefs.getInt("time")!);
         time = count_time.inSeconds;
-        if(_warning){
-          time=time+15;
+        if (_warning) {
+          time = time + 15;
         }
       });
     } else {
@@ -437,21 +442,17 @@ class _MyHomePageState extends State<MyHomePage> {
                 _running = false;
                 time = count_time.inSeconds;
 
-
                 back test = await Navigator.push(
                   context,
-
                   CupertinoPageRoute(
-                      builder: (context) => settings(
-                            rolling,
-                            count_time,
-                            _warning,
-                            analytics: widget.analytics,
-                            observer: widget.observer,
-                          ),
+                    builder: (context) => settings(
+                      rolling,
+                      count_time,
+                      _warning,
+                      analytics: widget.analytics,
+                      observer: widget.observer,
+                    ),
                     //  fullscreenDialog: true
-
-
                   ),
                 );
                 setState(() {
@@ -474,12 +475,9 @@ class _MyHomePageState extends State<MyHomePage> {
             mainAxisAlignment: MainAxisAlignment.spaceAround,
             crossAxisAlignment: CrossAxisAlignment.center,
             children: [
-
-
               CircularPercentIndicator(
                 radius: 300.0,
                 lineWidth: 20.0,
-
 
                 circularStrokeCap: CircularStrokeCap.round,
                 animation: true,
@@ -488,7 +486,9 @@ class _MyHomePageState extends State<MyHomePage> {
                 backgroundColor: CupertinoColors.tertiarySystemFill,
 
                 //arcBackgroundColor: CupertinoColors.systemBackground,
-                percent: _warning?(time/(count_time.inSeconds+15)):time/count_time.inSeconds,
+                percent: _warning
+                    ? (time / (count_time.inSeconds + 15))
+                    : time / count_time.inSeconds,
                 center: Text(
                   //"01:00",
                   count_time.inSeconds >= 3584
@@ -497,79 +497,73 @@ class _MyHomePageState extends State<MyHomePage> {
                   style: TextStyle(fontSize: 70, fontWeight: FontWeight.normal),
                 ),
                 progressColor: Theme.of(context).primaryColor,
-
               ),
-
               Row(
-
                 mainAxisAlignment: MainAxisAlignment.spaceAround,
                 children: [
-
-                  CupertinoButton(
-                       borderRadius: BorderRadius.all(Radius.circular(15)),
-                      color: Theme.of(context).primaryColor,
-
-                      child: Text( !_running ? "Start" : "Cancel",), onPressed:(){
-                    if (!_running) {
-                      // time = count_time.inSeconds;
-                      //  _running = true;
-                      HapticFeedback.selectionClick();
-                      startTimer();
-                      widget.analytics.logEvent(name: "Timer_Started");
-                    } else {
-                      setState(() {
-                        _running = false;
-                        time = count_time.inSeconds;
-
-                        if (_warning){
-                          time=time+15;
-                        }
-
-                        widget.analytics.logEvent(name: "Timer_Canceled");
-                      });
-                    }
-
-                  }),
                   CupertinoButton(
                       borderRadius: BorderRadius.all(Radius.circular(15)),
                       color: Theme.of(context).primaryColor,
-
-                      child: Text("Sync"), onPressed:(){
-                    if (_running) {
-                      HapticFeedback.selectionClick();
-                      widget.analytics.logEvent(name: "Timer_Synced");
-
-                      setState(() {
-                        time = (time ~/ 60) * 60;
-
-                        if (time == 0 && rolling && sound) {
-                          audioCache.play(
-                            'beep2.mp3',
-                            mode: PlayerMode.LOW_LATENCY,
-                            stayAwake: true,
-                          );
-                          //time=count_time.inSeconds;
+                      child: Text(
+                        !_running ? "Start" : "Cancel",
+                      ),
+                      onPressed: () {
+                        if (!_running) {
+                          // time = count_time.inSeconds;
+                          //  _running = true;
+                          HapticFeedback.selectionClick();
                           startTimer();
+                          widget.analytics.logEvent(name: "Timer_Started");
                         } else {
-                          if (sound) {
-                            FlutterBeep.beep();
-                          }
+                          setState(() {
+                            _running = false;
+                            time = count_time.inSeconds;
+
+                            if (_warning) {
+                              time = time + 15;
+                            }
+
+                            widget.analytics.logEvent(name: "Timer_Canceled");
+                          });
                         }
-                      });
-                    } else {
-                      snack();
-                      if (sound) {
-                        FlutterBeep.beep(false);
-                      }
-                      widget.analytics.logEvent(name: "Timer_Synced_Failed");
-                    }
-                  })
+                      }),
+                  CupertinoButton(
+                      borderRadius: BorderRadius.all(Radius.circular(15)),
+                      color: Theme.of(context).primaryColor,
+                      child: Text("Sync"),
+                      onPressed: () {
+                        if (_running) {
+                          HapticFeedback.selectionClick();
+                          widget.analytics.logEvent(name: "Timer_Synced");
 
+                          setState(() {
+                            time = (time ~/ 60) * 60;
+
+                            if (time == 0 && rolling && sound) {
+                              audioCache.play(
+                                'beep2.mp3',
+                                mode: PlayerMode.LOW_LATENCY,
+                                stayAwake: true,
+                              );
+                              //time=count_time.inSeconds;
+                              startTimer();
+                            } else {
+                              if (sound) {
+                                FlutterBeep.beep();
+                              }
+                            }
+                          });
+                        } else {
+                          snack();
+                          if (sound) {
+                            FlutterBeep.beep(false);
+                          }
+                          widget.analytics
+                              .logEvent(name: "Timer_Synced_Failed");
+                        }
+                      })
                 ],
-
-
               ),
-
 
               /*
               Row(
