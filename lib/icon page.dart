@@ -143,10 +143,21 @@ class _iconPageState extends State<iconPage> {
   }
 
   Future<void> checkIcon() async {
+
     String? s = await FlutterDynamicIcon.getAlternateIconName();
-    setState(() {
-      iconIndex=iconfile.indexOf(s!);
-    });
+
+    if(s==null){
+
+      setState(() {
+        iconIndex=4;
+      });
+
+    }else{
+      setState(() {
+        iconIndex=iconfile.indexOf(s);
+      });
+    }
+
   }
 
   Future<void> changeIcon(int index) async {

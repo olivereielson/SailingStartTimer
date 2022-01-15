@@ -49,10 +49,13 @@ class MyApp extends StatelessWidget {
       themes: [
         AppTheme(
           id: "dark", // Id(or name) of the theme(Has to be unique)
-          description: "Dark Theme", // Description of theme
+          description: "Dark Theme",
+          // Description of theme
+
           data: ThemeData(
               // Real theme data
               brightness: Brightness.dark,
+              fontFamily: "SF",
               scaffoldBackgroundColor: Color.fromRGBO(46, 48, 48, 1),
               backgroundColor: Color.fromRGBO(46, 48, 48, 1),
               primaryColor: Colors.lightBlueAccent,
@@ -434,9 +437,11 @@ class _MyHomePageState extends State<MyHomePage> {
                 _running = false;
                 time = count_time.inSeconds;
 
+
                 back test = await Navigator.push(
                   context,
-                  MaterialPageRoute(
+
+                  CupertinoPageRoute(
                       builder: (context) => settings(
                             rolling,
                             count_time,
@@ -444,7 +449,10 @@ class _MyHomePageState extends State<MyHomePage> {
                             analytics: widget.analytics,
                             observer: widget.observer,
                           ),
-                      fullscreenDialog: true),
+                    //  fullscreenDialog: true
+
+
+                  ),
                 );
                 setState(() {
                   rolling = test.rolling;

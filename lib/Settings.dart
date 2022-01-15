@@ -519,12 +519,13 @@ class _settingsState extends State<settings> {
 
                   Navigator.push(
                     context,
-                    MaterialPageRoute(
+                    CupertinoPageRoute(
                         builder: (context) => iconPage(
                           analytics: widget.analytics,
                           observer: widget.observer,
                         ),
-                        fullscreenDialog: true),
+                        //fullscreenDialog: true
+                  ),
                   );
 
                 },
