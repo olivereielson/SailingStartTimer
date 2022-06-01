@@ -14,7 +14,8 @@ import 'package:settings_ui/settings_ui.dart';
 import 'extra.dart';
 
 class settings extends StatefulWidget {
-  settings(this.rolling, this._chosenTime, this.warning, {required this.analytics, required this.observer});
+  settings(this.rolling, this._chosenTime, this.warning,
+      {required this.analytics, required this.observer});
 
   bool rolling;
   bool warning;
@@ -29,8 +30,6 @@ class settings extends StatefulWidget {
 class _settingsState extends State<settings> {
   _settingsState(this._chosenTime);
 
-  GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey();
-
   String currentIconName = "?";
 
   Duration _chosenTime;
@@ -40,7 +39,10 @@ class _settingsState extends State<settings> {
       context: ctx,
       builder: (_) => Container(
           height: 250,
-          decoration: BoxDecoration(color: Theme.of(context).scaffoldBackgroundColor, borderRadius: BorderRadius.only(topRight: Radius.circular(20), topLeft: Radius.circular(20))),
+          decoration: BoxDecoration(
+              color: Theme.of(context).scaffoldBackgroundColor,
+              borderRadius:
+                  BorderRadius.only(topRight: Radius.circular(20), topLeft: Radius.circular(20))),
           child: CupertinoTimerPicker(
             onTimerDurationChanged: (Duration value) async {
               setState(() {
@@ -63,300 +65,7 @@ class _settingsState extends State<settings> {
     });
   }
 
-  Widget rollingStarts() {
-    return Padding(
-      padding: const EdgeInsets.all(15.0),
-      child: Container(
-        height: 100,
-        width: MediaQuery.of(context).size.width,
-        decoration: BoxDecoration(
-            borderRadius: BorderRadius.all(
-              Radius.circular(25),
-            ),
-            border: Border.all(color: Theme.of(context).primaryColor, width: 2)),
-        child: Row(
-          children: [
-            Padding(
-              padding: const EdgeInsets.all(15.0),
-              child: Icon(
-                Icons.refresh,
-                size: 30,
-                color: Theme.of(context).iconTheme.color,
-              ),
-            ),
-            Padding(
-              padding: const EdgeInsets.all(8.0),
-              child: Text(
-                "Rolling Starts",
-                style: TextStyle(fontSize: 20),
-              ),
-            ),
-            Spacer(),
-            Padding(
-              padding: const EdgeInsets.all(10.0),
-              child: CupertinoSwitch(
-                value: widget.rolling,
-                onChanged: (val) async {
-                  HapticFeedback.lightImpact();
-
-                  setState(() {
-                    widget.rolling = val;
-                  });
-                  SharedPreferences prefs = await SharedPreferences.getInstance();
-                  prefs.setBool("rolling", val);
-                  widget.analytics.logEvent(
-                    name: "Rolling_Toggled",
-                    parameters: <String, dynamic>{
-                      'rolling_start': val,
-                    },
-                  );
-                },
-                activeColor: Theme.of(context).primaryColor,
-              ),
-            )
-          ],
-        ),
-      ),
-    );
-  }
-
-  Widget chosenTime() {
-    return Padding(
-      padding: const EdgeInsets.all(15.0),
-      child: GestureDetector(
-        onTap: () async {
-          _showDatePicker(context);
-        },
-        child: Container(
-          height: 100,
-          width: MediaQuery.of(context).size.width,
-          decoration: BoxDecoration(
-              borderRadius: BorderRadius.all(
-                Radius.circular(25),
-              ),
-              border: Border.all(color: Theme.of(context).primaryColor, width: 2)),
-          child: Row(
-            children: [
-              Padding(
-                padding: const EdgeInsets.all(15.0),
-                child: Icon(
-                  Icons.timer,
-                  size: 30,
-                  color: Theme.of(context).iconTheme.color,
-                ),
-              ),
-              Padding(
-                padding: const EdgeInsets.all(8.0),
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Text(
-                      "Starts Time",
-                      style: TextStyle(fontSize: 20),
-                    ),
-                    Text(
-                      _chosenTime.toString().substring(2, 7),
-                      style: TextStyle(fontSize: 17, color: Theme.of(context).primaryColor),
-                    ),
-                  ],
-                ),
-              ),
-              Spacer(),
-              Padding(
-                padding: const EdgeInsets.all(8.0),
-                child: Icon(
-                  Icons.chevron_right,
-                  size: 30,
-                ),
-              )
-            ],
-          ),
-        ),
-      ),
-    );
-  }
-
-  Widget warningBeep() {
-    return Padding(
-      padding: const EdgeInsets.all(15.0),
-      child: Container(
-        height: 100,
-        width: MediaQuery.of(context).size.width,
-        decoration: BoxDecoration(
-            borderRadius: BorderRadius.all(
-              Radius.circular(25),
-            ),
-            border: Border.all(color: Theme.of(context).primaryColor, width: 2)),
-        child: Row(
-          children: [
-            Padding(
-              padding: const EdgeInsets.all(15.0),
-              child: Icon(
-                Icons.warning_amber_outlined,
-                size: 30,
-                color: Theme.of(context).iconTheme.color,
-              ),
-            ),
-            Padding(
-              padding: const EdgeInsets.all(8.0),
-              child: Text(
-                "Warning Horn",
-                style: TextStyle(fontSize: 20),
-              ),
-            ),
-            Spacer(),
-            Padding(
-              padding: const EdgeInsets.all(10.0),
-              child: CupertinoSwitch(
-                value: widget.warning,
-                onChanged: (val) async {
-                  HapticFeedback.lightImpact();
-
-                  setState(() {
-                    widget.warning = val;
-                  });
-                  SharedPreferences prefs = await SharedPreferences.getInstance();
-                  prefs.setBool("warning", val);
-
-                  widget.analytics.logEvent(
-                    name: "Warning_Toggled",
-                    parameters: <String, dynamic>{
-                      'value': val,
-                    },
-                  );
-                },
-                activeColor: Theme.of(context).primaryColor,
-              ),
-            )
-          ],
-        ),
-      ),
-    );
-  }
-
-  Widget icon() {
-    return Padding(
-      padding: const EdgeInsets.all(15.0),
-      child: GestureDetector(
-        onTap: () async {
-          Navigator.push(
-            context,
-            MaterialPageRoute(
-                builder: (context) => iconPage(
-                      analytics: widget.analytics,
-                      observer: widget.observer,
-                    ),
-                fullscreenDialog: true),
-          );
-        },
-        child: Container(
-          height: 100,
-          width: MediaQuery.of(context).size.width,
-          decoration: BoxDecoration(
-              borderRadius: BorderRadius.all(
-                Radius.circular(25),
-              ),
-              border: Border.all(color: Theme.of(context).primaryColor, width: 2)),
-          child: Row(
-            children: [
-              Padding(
-                padding: const EdgeInsets.all(15.0),
-                child: Icon(
-                  Icons.app_registration,
-                  size: 30,
-                  color: Theme.of(context).iconTheme.color,
-                ),
-              ),
-              Padding(
-                padding: const EdgeInsets.all(8.0),
-                child: Text(
-                  "Change Icon",
-                  style: TextStyle(fontSize: 20),
-                ),
-              ),
-              Spacer(),
-              Padding(
-                  padding: const EdgeInsets.all(10.0),
-                  child: Icon(
-                    Icons.chevron_right,
-                    size: 25,
-                  ))
-            ],
-          ),
-        ),
-      ),
-    );
-  }
-
-  Widget theme() {
-    return Padding(
-      padding: const EdgeInsets.all(15.0),
-      child: GestureDetector(
-        onTap: () async {
-          await showCupertinoDialog(
-              context: context,
-              builder: (_) => ThemeConsumer(
-                      child: ThemeDialog(
-                    // selectedOverlayColor: Colors.grey,
-                    title: Text(ThemeProvider.themeOf(context).description),
-                    hasDescription: false,
-                    innerCircleColorBuilder: (AppTheme date) {
-                      return date.data.accentColor;
-                    },
-                    outerCircleColorBuilder: (AppTheme date) {
-                      return Colors.grey;
-                    },
-                  )));
-
-          await widget.analytics.logEvent(
-            name: "Theme_Changed",
-            parameters: <String, dynamic>{
-              'theme': ThemeProvider.themeOf(context).id,
-            },
-          );
-        },
-        child: Container(
-          height: 100,
-          width: MediaQuery.of(context).size.width,
-          decoration: BoxDecoration(
-              borderRadius: BorderRadius.all(
-                Radius.circular(25),
-              ),
-              border: Border.all(color: Theme.of(context).primaryColor, width: 2)),
-          child: Row(
-            children: [
-              Padding(
-                padding: const EdgeInsets.all(15.0),
-                child: Icon(
-                  Icons.dark_mode_outlined,
-                  size: 30,
-                  color: Theme.of(context).iconTheme.color,
-                ),
-              ),
-              Padding(
-                padding: const EdgeInsets.all(8.0),
-                child: Text(
-                  "Theme",
-                  style: TextStyle(fontSize: 20),
-                ),
-              ),
-              Spacer(),
-              Padding(
-                  padding: const EdgeInsets.all(10.0),
-                  child: Icon(
-                    Icons.chevron_right,
-                    size: 25,
-                  ))
-            ],
-          ),
-        ),
-      ),
-    );
-  }
-
-  Widget icons(IconData iconsss){
-
+  Widget icons(IconData iconsss) {
     return Padding(
       padding: const EdgeInsets.symmetric(vertical: 10),
       child: Container(
@@ -368,10 +77,12 @@ class _settingsState extends State<settings> {
           ),
           child: Padding(
             padding: const EdgeInsets.all(5.0),
-            child: Icon(iconsss,color: Colors.white,),
+            child: Icon(
+              iconsss,
+              color: Colors.white,
+            ),
           )),
     );
-
   }
 
   @override
@@ -383,32 +94,28 @@ class _settingsState extends State<settings> {
     super.initState();
   }
 
-
   @override
   Widget build(BuildContext context) {
-
-    return  Scaffold(
-
+    return Scaffold(
       appBar: AppBar(
-
-
         leading: IconButton(
-
-          color: Colors.pink,
-          icon: Icon(CupertinoIcons.chevron_left,color: CupertinoColors.activeBlue,size: 30,), onPressed: () {
-
-          Navigator.pop(context, back(widget.rolling, _chosenTime, widget.warning),);
-
-        },),
-
-        title: Text("Settings"),
+          icon: Icon(
+            CupertinoIcons.chevron_left,
+            color: CupertinoColors.activeBlue,
+            size: 30,
+          ),
+          onPressed: () {
+            Navigator.pop(
+              context,
+              back(widget.rolling, _chosenTime, widget.warning),
+            );
+          },
+        ),
+        title: Text("Settings",style: TextStyle(fontSize: 25),),
         centerTitle: true,
         elevation: 0,
       ),
-
-
-
-      body:   SettingsList(
+      body: SettingsList(
         sections: [
           SettingsSection(
             title: Text('Timer Settings'),
@@ -417,32 +124,28 @@ class _settingsState extends State<settings> {
                 leading: icons(Icons.timer),
                 title: Text('Timer'),
                 value: Text(_chosenTime.toString().substring(2, 7)),
-                onPressed: (test){
+                onPressed: (test) {
                   _showDatePicker(context);
-
                 },
               ),
               SettingsTile.switchTile(
-                onToggle: (value)  {
+                onToggle: (value) {
+                  HapticFeedback.lightImpact();
 
-                    HapticFeedback.lightImpact();
+                  setState(() {
+                    widget.rolling = value;
+                  });
 
-                    setState(() {
-                      widget.rolling = value;
-                    });
+                  widget.analytics.logEvent(
+                    name: "Rolling_Toggled",
+                    parameters: <String, dynamic>{
+                      'rolling_start': value,
+                    },
+                  );
 
-
-                    widget.analytics.logEvent(
-                      name: "Rolling_Toggled",
-                      parameters: <String, dynamic>{
-                        'rolling_start': value,
-                      },
-                    );
-
-                    SharedPreferences.getInstance().then((prefs){
-                      prefs.setBool("rolling", value);
-                    });
-
+                  SharedPreferences.getInstance().then((prefs) {
+                    prefs.setBool("rolling", value);
+                  });
                 },
                 initialValue: widget.rolling,
                 leading: icons(CupertinoIcons.refresh),
@@ -464,7 +167,8 @@ class _settingsState extends State<settings> {
                       parameters: <String, dynamic>{
                         'value': value,
                       },
-                    );                  });
+                    );
+                  });
                 },
                 initialValue: widget.warning,
                 leading: icons(Icons.warning),
@@ -472,42 +176,36 @@ class _settingsState extends State<settings> {
               ),
             ],
           ),
-
           SettingsSection(
             title: Text('App Settings'),
-
-
             tiles: <SettingsTile>[
               SettingsTile.navigation(
-
-                leading: icons(Icons.dark_mode,),
+                leading: icons(
+                  Icons.dark_mode,
+                ),
                 title: Text('Theme'),
                 value: Text(ThemeProvider.themeOf(context).description),
                 onPressed: (test) async {
                   await showCupertinoDialog(
                       context: context,
                       barrierDismissible: true,
-
                       builder: (_) => ThemeConsumer(
-                      child: ThemeDialog(
+                              child: ThemeDialog(
+                            title: Text(ThemeProvider.themeOf(context).description),
+                            hasDescription: false,
+                            innerCircleColorBuilder: (AppTheme date) {
+                              return date.data.primaryColor;
+                            },
+                            outerCircleColorBuilder: (AppTheme date) {
+                              return Colors.grey;
+                            },
+                          )));
 
-                        title: Text(ThemeProvider.themeOf(context).description),
-                        hasDescription: false,
-
-                        innerCircleColorBuilder: (AppTheme date) {
-                          return date.data.accentColor;
-                        },
-                        outerCircleColorBuilder: (AppTheme date) {
-                          return Colors.grey;
-                        },
-                      )));
-
-
-                   widget.analytics.logEvent(
-                  name: "Theme_Changed",
-                  parameters: <String, dynamic>{
-                  'theme': ThemeProvider.themeOf(context).id,
-                  },
+                  widget.analytics.logEvent(
+                    name: "Theme_Changed",
+                    parameters: <String, dynamic>{
+                      'theme': ThemeProvider.themeOf(context).id,
+                    },
                   );
                 },
               ),
@@ -515,104 +213,49 @@ class _settingsState extends State<settings> {
                 leading: icons(Icons.app_registration),
                 title: Text('Change Icon'),
                 //value: Text(ThemeProvider.themeOf(context).description),
-                onPressed: (test){
-
+                onPressed: (test) {
                   Navigator.push(
                     context,
                     CupertinoPageRoute(
-                        builder: (context) => iconPage(
-                          analytics: widget.analytics,
-                          observer: widget.observer,
-                        ),
-                        //fullscreenDialog: true
-                  ),
+                      builder: (context) => iconPage(
+                        analytics: widget.analytics,
+                        observer: widget.observer,
+                      ),
+                      //fullscreenDialog: true
+                    ),
                   );
-
                 },
               ),
             ],
           ),
-
           SettingsSection(
             title: Text('Feedback'),
-
-
             tiles: <SettingsTile>[
-              SettingsTile.navigation(
+              SettingsTile(
+                title: Text("Info"),
+                leading: icons(CupertinoIcons.info_circle),
+                onPressed: (context) {
+                  showAboutDialog(
+                    context: context,
+                    applicationName: "Sailing Timer",
 
-                leading: icons(Icons.reviews,),
-                title: Text('Leave a Review'),
-                description: Text('Created By Oliver Eielson'),
-               // value: Text(ThemeProvider.themeOf(context).description),
-                onPressed: (test)  {
-                  if (Platform.isIOS) {
-                    AppReview.requestReview;
-                  }
-                }
-
+                  );
+                },
               ),
-
+              SettingsTile.navigation(
+                  leading: icons(
+                    Icons.reviews,
+                  ),
+                  title: Text('Leave a Review'),
+                  description: Text('Created By Oliver Eielson'),
+                  // value: Text(ThemeProvider.themeOf(context).description),
+                  onPressed: (test) {
+                    if (Platform.isIOS) {
+                      AppReview.requestReview;
+                    }
+                  }),
             ],
           ),
-
-
-        ],
-      ),
-    );
-
-
-
-
-
-  }
-  Widget old(){
-
-    return Scaffold(
-      key: _scaffoldKey,
-      appBar: AppBar(
-        title: Text(
-          "Settings",
-          style: TextStyle(fontWeight: FontWeight.bold, fontSize: 25, color: Theme.of(context).primaryColorLight),
-        ),
-        backgroundColor: Colors.transparent,
-        elevation: 0,
-        leading: IconButton(
-          onPressed: () {
-            Navigator.pop(
-              context,
-              back(widget.rolling, _chosenTime, widget.warning),
-            );
-          },
-          icon: Icon(
-            Icons.chevron_left,
-            size: 40,
-            color: Theme.of(context).iconTheme.color,
-          ),
-          //splashColor: Colors.lightBlueAccent,
-        ),
-      ),
-      body: ListView(
-        children: [
-          chosenTime(),
-          rollingStarts(),
-          warningBeep(),
-          theme(),
-          icon(),
-          Padding(
-            padding: const EdgeInsets.all(15.0),
-            child: Container(
-              height: 50,
-              child: Column(
-                children: [
-                  Padding(
-                    padding: const EdgeInsets.all(5.0),
-                    child: Text("Created by"),
-                  ),
-                  Text("Oliver Eielson"),
-                ],
-              ),
-            ),
-          )
         ],
       ),
     );

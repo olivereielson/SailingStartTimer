@@ -64,6 +64,7 @@ flutter:
      - assets/beep.mp3
      - assets/beep2.mp3
      - assets/images/
+     - assets/boat.png
 
 
   # An image asset can refer to one or more resolution-specific "variants", see

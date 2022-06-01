@@ -31,7 +31,6 @@ Future<void> main() async {
     WidgetsFlutterBinding.ensureInitialized();
     await Firebase.initializeApp();
     FlutterError.onError = FirebaseCrashlytics.instance.recordFlutterError;
-
     runApp(MyApp());
   }, (error, stackTrace) {
     FirebaseCrashlytics.instance.recordError(error, stackTrace);
@@ -40,8 +39,7 @@ Future<void> main() async {
 
 class MyApp extends StatelessWidget {
   static FirebaseAnalytics analytics = FirebaseAnalytics.instance;
-  static FirebaseAnalyticsObserver observer =
-      FirebaseAnalyticsObserver(analytics: analytics);
+  static FirebaseAnalyticsObserver observer = FirebaseAnalyticsObserver(analytics: analytics);
 
   @override
   Widget build(BuildContext context) {
@@ -56,19 +54,17 @@ class MyApp extends StatelessWidget {
               // Real theme data
               brightness: Brightness.dark,
               fontFamily: "SF",
+
               scaffoldBackgroundColor: Color.fromRGBO(46, 48, 48, 1),
               backgroundColor: Color.fromRGBO(46, 48, 48, 1),
               primaryColor: Colors.lightBlueAccent,
               primaryColorLight: Colors.white,
               appBarTheme: AppBarTheme(
-                backgroundColor: CupertinoColors.darkBackgroundGray,
                 elevation: 0,
-                titleTextStyle: TextStyle(
-                    fontSize: 30,
-                    fontWeight: FontWeight.bold,
-                    color: Colors.white),
+                backgroundColor: CupertinoColors.darkBackgroundGray,
+                titleTextStyle:
+                    TextStyle(fontSize: 30, fontWeight: FontWeight.bold, color: Colors.white),
               ),
-              accentColor: Color.fromRGBO(46, 48, 48, 1),
               iconTheme: IconThemeData(color: Colors.white),
               primaryColorDark: Colors.lightBlueAccent),
         ),
@@ -80,14 +76,13 @@ class MyApp extends StatelessWidget {
             appBarTheme: AppBarTheme(
               backgroundColor: CupertinoColors.systemBackground,
               elevation: 0,
+              iconTheme: IconThemeData(color: Colors.lightBlueAccent),
               titleTextStyle: TextStyle(
-                  fontSize: 30,
-                  fontWeight: FontWeight.bold,
-                  color: CupertinoColors.black),
+                  fontSize: 30, fontWeight: FontWeight.bold, color: CupertinoColors.black),
             ),
             primaryColor: Colors.lightBlueAccent,
             primaryColorLight: Colors.lightBlueAccent,
-            accentColor: Colors.white,
+
             textTheme: TextTheme(bodyText1: TextStyle(color: Colors.pink)),
 
             cupertinoOverrideTheme: NoDefaultCupertinoThemeData(
@@ -103,10 +98,8 @@ class MyApp extends StatelessWidget {
               appBarTheme: AppBarTheme(
                 backgroundColor: CupertinoColors.darkBackgroundGray,
                 elevation: 0,
-                titleTextStyle: TextStyle(
-                    fontSize: 30,
-                    fontWeight: FontWeight.bold,
-                    color: Colors.white),
+                titleTextStyle:
+                    TextStyle(fontSize: 30, fontWeight: FontWeight.bold, color: Colors.white),
               ),
               brightness: Brightness.dark,
               scaffoldBackgroundColor: Color.fromRGBO(46, 48, 48, 1),
@@ -125,10 +118,8 @@ class MyApp extends StatelessWidget {
               appBarTheme: AppBarTheme(
                 backgroundColor: CupertinoColors.darkBackgroundGray,
                 elevation: 0,
-                titleTextStyle: TextStyle(
-                    fontSize: 30,
-                    fontWeight: FontWeight.bold,
-                    color: Colors.white),
+                titleTextStyle:
+                    TextStyle(fontSize: 30, fontWeight: FontWeight.bold, color: Colors.white),
               ),
               brightness: Brightness.dark,
               scaffoldBackgroundColor: Color.fromRGBO(46, 48, 48, 1),
@@ -147,10 +138,9 @@ class MyApp extends StatelessWidget {
               appBarTheme: AppBarTheme(
                 backgroundColor: CupertinoColors.systemBackground,
                 elevation: 0,
+                iconTheme: IconThemeData(color: Colors.pinkAccent),
                 titleTextStyle: TextStyle(
-                    fontSize: 30,
-                    fontWeight: FontWeight.bold,
-                    color: CupertinoColors.black),
+                    fontSize: 30, fontWeight: FontWeight.bold, color: CupertinoColors.black),
               ),
               brightness: Brightness.light,
               // scaffoldBackgroundColor: Color.fromRGBO(46, 48, 48, 1),
@@ -169,10 +159,8 @@ class MyApp extends StatelessWidget {
               appBarTheme: AppBarTheme(
                 backgroundColor: CupertinoColors.darkBackgroundGray,
                 elevation: 0,
-                titleTextStyle: TextStyle(
-                    fontSize: 30,
-                    fontWeight: FontWeight.bold,
-                    color: Colors.white),
+                titleTextStyle:
+                    TextStyle(fontSize: 30, fontWeight: FontWeight.bold, color: Colors.white),
               ),
               brightness: Brightness.dark,
               scaffoldBackgroundColor: Color.fromRGBO(46, 48, 48, 1),
@@ -191,10 +179,8 @@ class MyApp extends StatelessWidget {
               appBarTheme: AppBarTheme(
                 backgroundColor: CupertinoColors.darkBackgroundGray,
                 elevation: 0,
-                titleTextStyle: TextStyle(
-                    fontSize: 30,
-                    fontWeight: FontWeight.bold,
-                    color: Colors.white),
+                titleTextStyle:
+                    TextStyle(fontSize: 30, fontWeight: FontWeight.bold, color: Colors.white),
               ),
               brightness: Brightness.dark,
               scaffoldBackgroundColor: Color.fromRGBO(46, 48, 48, 1),
@@ -386,8 +372,7 @@ class _MyHomePageState extends State<MyHomePage> {
     } else {
       // Else only enable it in non-debug builds.
       // You could additionally extend this to allow users to opt-in.
-      await FirebaseCrashlytics.instance
-          .setCrashlyticsCollectionEnabled(!kDebugMode);
+      await FirebaseCrashlytics.instance.setCrashlyticsCollectionEnabled(!kDebugMode);
     }
   }
 
@@ -476,7 +461,7 @@ class _MyHomePageState extends State<MyHomePage> {
             crossAxisAlignment: CrossAxisAlignment.center,
             children: [
               CircularPercentIndicator(
-                radius: 300.0,
+                radius: 150.0,
                 lineWidth: 20.0,
 
                 circularStrokeCap: CircularStrokeCap.round,
@@ -486,9 +471,8 @@ class _MyHomePageState extends State<MyHomePage> {
                 backgroundColor: CupertinoColors.tertiarySystemFill,
 
                 //arcBackgroundColor: CupertinoColors.systemBackground,
-                percent: _warning
-                    ? (time / (count_time.inSeconds + 15))
-                    : time / count_time.inSeconds,
+                percent:
+                    _warning ? (time / (count_time.inSeconds + 15)) : time / count_time.inSeconds,
                 center: Text(
                   //"01:00",
                   count_time.inSeconds >= 3584
@@ -558,99 +542,11 @@ class _MyHomePageState extends State<MyHomePage> {
                           if (sound) {
                             FlutterBeep.beep(false);
                           }
-                          widget.analytics
-                              .logEvent(name: "Timer_Synced_Failed");
+                          widget.analytics.logEvent(name: "Timer_Synced_Failed");
                         }
                       })
                 ],
               ),
-
-              /*
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceAround,
-                children: [
-                  GestureDetector(
-                    onTap: () {
-                      if (!_running) {
-                        // time = count_time.inSeconds;
-                        //  _running = true;
-                        HapticFeedback.selectionClick();
-                        startTimer();
-                        widget.analytics.logEvent(name: "Timer_Started");
-                      } else {
-                        setState(() {
-                          _running = false;
-                          time = count_time.inSeconds;
-                          widget.analytics.logEvent(name: "Timer_Canceled");
-                        });
-                      }
-                    },
-                    child: Container(
-                      height: 120,
-                      width: 120,
-                      decoration: BoxDecoration(
-                          border: Border.all(
-                              color: Theme.of(context).primaryColor, width: 3),
-                          borderRadius: BorderRadius.all(Radius.circular(20))),
-                      child: Center(
-                          child: Text(
-                        !_running ? "Start" : "Cancel",
-                        style: TextStyle(
-                            fontWeight: FontWeight.bold, fontSize: 20),
-                      )),
-                    ),
-                  ),
-                  GestureDetector(
-                    onTap: () {
-                      if (_running) {
-                        HapticFeedback.selectionClick();
-                        widget.analytics.logEvent(name: "Timer_Synced");
-
-                        setState(() {
-                          time = (time ~/ 60) * 60;
-
-                          if (time == 0 && rolling && sound) {
-                            audioCache.play(
-                              'beep2.mp3',
-                              mode: PlayerMode.LOW_LATENCY,
-                              stayAwake: true,
-                            );
-                            //time=count_time.inSeconds;
-                            startTimer();
-                          } else {
-                            if (sound) {
-                              FlutterBeep.beep();
-                            }
-                          }
-                        });
-                      } else {
-                        snack();
-                        if (sound) {
-                          FlutterBeep.beep(false);
-                        }
-                        widget.analytics.logEvent(name: "Timer_Synced_Failed");
-                      }
-                      //audioCache.play('beep.mp3', mode: PlayerMode.LOW_LATENCY);
-                    },
-                    child: Container(
-                      height: 120,
-                      width: 120,
-                      decoration: BoxDecoration(
-                          border: Border.all(
-                              color: Theme.of(context).primaryColor, width: 3),
-                          borderRadius: BorderRadius.all(Radius.circular(20))),
-                      child: Center(
-                          child: Text(
-                        "Sync",
-                        style: TextStyle(
-                            fontWeight: FontWeight.bold, fontSize: 20),
-                      )),
-                    ),
-                  )
-                ],
-              )
-
-               */
             ],
           ),
         ),
