@@ -18,6 +18,7 @@ import 'package:theme_provider/theme_provider.dart';
 import 'package:top_snackbar_flutter/custom_snack_bar.dart';
 import 'package:top_snackbar_flutter/top_snack_bar.dart';
 import 'extra.dart';
+import 'package:wakelock/wakelock.dart';
 
 // Toggle this to cause an async error to be thrown during initialization
 // and to test that runZonedGuarded() catches the error
@@ -54,7 +55,6 @@ class MyApp extends StatelessWidget {
               // Real theme data
               brightness: Brightness.dark,
               fontFamily: "SF",
-
               scaffoldBackgroundColor: Color.fromRGBO(46, 48, 48, 1),
               backgroundColor: Color.fromRGBO(46, 48, 48, 1),
               primaryColor: Colors.lightBlueAccent,
@@ -254,6 +254,9 @@ class _MyHomePageState extends State<MyHomePage> {
     40,
     50,
     60,
+    61,
+    62,
+    63,
     90,
     120,
     180,
@@ -287,6 +290,8 @@ class _MyHomePageState extends State<MyHomePage> {
           }
           if (rolling) {
             startTimer();
+          }else{
+            Wakelock.disable();
           }
         }
         if (beeps().new_beeps(count_time).contains(time) && sound) {
@@ -498,6 +503,7 @@ class _MyHomePageState extends State<MyHomePage> {
                           HapticFeedback.selectionClick();
                           startTimer();
                           widget.analytics.logEvent(name: "Timer_Started");
+                          Wakelock.enable();
                         } else {
                           setState(() {
                             _running = false;
@@ -506,8 +512,9 @@ class _MyHomePageState extends State<MyHomePage> {
                             if (_warning) {
                               time = time + 15;
                             }
-
                             widget.analytics.logEvent(name: "Timer_Canceled");
+                            Wakelock.disable();
+
                           });
                         }
                       }),

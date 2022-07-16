@@ -29,6 +29,7 @@ dependencies:
   # Use with the CupertinoIcons class for iOS style icons.
   cupertino_icons:
   flutter_beep:
+  wakelock:
   audioplayers:
   shared_preferences:
   firebase_analytics:
