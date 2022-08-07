@@ -282,11 +282,8 @@ class _MyHomePageState extends State<MyHomePage> {
 
         if (time == 0) {
           if (sound) {
-            audioCache.play(
-              'beep2.mp3',
-              mode: PlayerMode.LOW_LATENCY,
-              stayAwake: true,
-            );
+
+            FlutterBeep.beep();
           }
           if (rolling) {
             startTimer();
